@@ -1,13 +1,14 @@
-import { Suspense } from "react";
+import Link from "next/link";
+import { ReactNode, Suspense } from "react";
 
 export default async function List() {
   const data = await getData(1000);
   return (
     <div>
-      <h1>First List</h1>
+      <h1 class="font-bold">First List</h1>
       <ul>
         {data.map((i) => (
-          <li key={i}>{i}</li>
+          <ListItem key={i}>{i}</ListItem>
         ))}
       </ul>
       <Suspense fallback={<div>Loading...</div>}>
@@ -17,10 +18,13 @@ export default async function List() {
   );
 }
 
-async function List3(props: { title: string}) {
-  return <div>{props.title}</div>;
+function ListItem({ children }: { children: ReactNode }) {
+  return (
+    <div>
+      <Link href="/item">{children}</Link>
+    </div>
+  );
 }
-
 
 async function List2() {
   const data2 = await getData(2000);
@@ -40,7 +44,13 @@ async function List2() {
 function getData(timeout: number): Promise<string[]> {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(["item 1"]);
+      resolve([
+        "Mint Chocolate Chip",
+        "Strawberry Lemonade",
+        "Coconut Lime",
+        "Peach Mango",
+        "Blueberry Lavender",
+      ]);
     }, timeout);
   });
 }
